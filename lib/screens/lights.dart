@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubisch_home/api/light/Acuarium.dart';
 import 'package:qubisch_home/api/light/Kubis.dart';
+import 'package:qubisch_home/api/light/LivingRoomAvize.dart';
 import 'package:qubisch_home/api/light/LivingRoomLeds.dart';
 import 'package:qubisch_home/api/light/SleepingRoom.dart';
 
@@ -11,6 +12,7 @@ class LightsScreen extends StatefulWidget {
 
 class _CurtainState extends State<LightsScreen> {
   bool isSwitched = true;
+  bool isSwitchedAvize = true;
   bool isSwitchedAc = true;
   bool isSwitchedKubis = true;
   bool isSwitchedSleeping = true;
@@ -43,6 +45,28 @@ class _CurtainState extends State<LightsScreen> {
                       setState(() {
                         isSwitched = value;
                         LivingRoomLeds room = LivingRoomLeds();
+                        room.makeRequest();
+                      });
+                    }),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'OTURMA ODASI AVİZE',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Switch(
+                    value: isSwitchedAvize,
+                    activeTrackColor: Colors.lightGreenAccent,
+                    activeColor: Colors.green,
+                    onChanged: (value) {
+                      setState(() {
+                        isSwitchedAvize = value;
+                        LivingRoomAvize room = LivingRoomAvize();
                         room.makeRequest();
                       });
                     }),
