@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qubisch_home/api/humidity/LivingRoom.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -6,8 +8,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-  @override
+  final LivingRoom livingRoom = LivingRoom();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Kubiş Akıllı Evim')),
@@ -17,11 +20,10 @@ class _HomeState extends State<HomeScreen> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                  color: Colors.blue,
                   image: DecorationImage(
                       image: AssetImage("assets/web_hi_res_512.png"),
-                      fit: BoxFit.cover)
-              ),
+                      fit: BoxFit.cover)),
               child: Text(
                 'Güzel Evim',
                 style: TextStyle(
@@ -49,10 +51,48 @@ class _HomeState extends State<HomeScreen> {
           ],
         ),
       ),
-      body:  Center(
-
-      ),
+      body: Container(
+          padding: const EdgeInsets.all(32),
+          child: FutureBuilder<Curtain>(
+            future: livingRoom.makeRequest(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Sıcaklık',
+                        ),
+                        Text(
+                          snapshot.data.temperature + ' °C',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Nem'),
+                        Text(
+                          snapshot.data.humidity + '%',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return CircularProgressIndicator();
+            },
+          )),
     );
   }
-
 }
