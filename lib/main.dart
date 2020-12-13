@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:qubisch_home/screens/curtains.dart';
 import 'package:qubisch_home/screens/home.dart';
 import 'package:qubisch_home/screens/lights.dart';
+import 'package:flutter/foundation.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
 
 void main() => runApp(MyApp());
 

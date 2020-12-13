@@ -21,6 +21,11 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  sound_stream: ^0.2.0
+  web_socket_channel: ^1.1.0
+  permission_handler: ^5.0.1+1
+  path_provider: ^1.6.24
+  flutter_sound: ^6.4.7+1
 
   flutter:
     sdk: flutter
