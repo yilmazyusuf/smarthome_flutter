@@ -26,6 +26,7 @@ dependencies:
   permission_handler: ^5.0.1+1
   path_provider: ^1.6.24
   flutter_sound: ^6.4.7+1
+  dio: ^3.0.10
 
   flutter:
     sdk: flutter
