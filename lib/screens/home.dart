@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_sound/public/util/wave_header.dart';
 import 'package:qubisch_home/api/humidity/LivingRoom.dart';
 import 'dart:io';
@@ -18,8 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-
-
   FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
   FlutterSoundRecorder _mRecorder = FlutterSoundRecorder();
   bool _mPlayerIsInited = false;
@@ -87,7 +86,6 @@ class _HomeState extends State<HomeScreen> {
 
   @override
   void dispose() {
-
     _mPlayer.closeAudioSession();
     _mPlayer = null;
 
@@ -150,12 +148,11 @@ class _HomeState extends State<HomeScreen> {
     Directory directory = await getExternalStorageDirectory();
     String pathi = directory.path;
     var filOut = File('$pathi/filename.wav');
-    final file = MultipartFile.fromBytes(filOut.readAsBytesSync(), filename: 'filename.wav');
+    final file = MultipartFile.fromBytes(filOut.readAsBytesSync(),
+        filename: 'filename.wav');
 
     FormData formData = FormData.fromMap({"file": file});
     await dio.post("http://85.100.127.47:5000/stream", data: formData);
-
-
   }
 
   _Fn getRecorderFn() {
@@ -169,50 +166,52 @@ class _HomeState extends State<HomeScreen> {
           };
   }
 
+  Color navBarColor = const Color(0xFF669D89);
+  static const navBarTextColor = const Color(0xFFfef4d4);
+  Color subTitleColor = const Color(0xFFdec978);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Kubiş Akıllı Evim')),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                  color: Colors.blue,
-                  image: DecorationImage(
-                      image: AssetImage("assets/web_hi_res_512.png"),
-                      fit: BoxFit.cover)),
-              child: Text(
-                'Güzel Evim',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-                leading: Icon(
-                  Icons.wb_sunny_rounded,
-                ),
-                title: Text('Perdeler'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/curtains');
-                }),
-            ListTile(
-                leading: Icon(
-                  Icons.wb_incandescent,
-                ),
-                title: Text('Işıklar'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/lights');
-                })
-          ],
-        ),
+      backgroundColor: navBarTextColor,
+      appBar: AppBar(
+        title: const Text('Kubiş Akıllı Evim',
+            style: TextStyle(color: navBarTextColor)),
+        elevation: 0,
+        backgroundColor: navBarColor,
       ),
-      body: Container(
-          padding: const EdgeInsets.all(32),
-          child: FutureBuilder<Curtain>(
+      body: Row(children: [
+        Container(
+
+            alignment: Alignment.topRight,
+            padding: const EdgeInsets.only(right: 5,top: 5),
+            height: MediaQuery.of(context).size.height * 0.1,
+            width:  MediaQuery.of(context).size.width,
+            child: Container(
+              transform: Matrix4.translationValues(0.0, 0, 0.0),
+              child: Image.asset('assets/images/logo.png'),
+            ),
+            decoration: BoxDecoration(
+              color: subTitleColor,
+            ),
+
+
+        ),
+        Container(
+          child: Row(
+            children: [],
+          ),
+        )
+      ],
+
+
+      ),
+    );
+  }
+}
+
+/*
+child: FutureBuilder<Curtain>(
             future: livingRoom.makeRequest(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -275,6 +274,4 @@ class _HomeState extends State<HomeScreen> {
               return CircularProgressIndicator();
             },
           )),
-    );
-  }
-}
+ */

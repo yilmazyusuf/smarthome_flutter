@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // Start the app with the "/" named route. In this case, the app starts
       // on the FirstScreen widget.
+      theme: ThemeData(fontFamily: 'Pacifico'),
       initialRoute: '/',
       routes: {
         // When navigating to the "/" route, build the FirstScreen widget.
