@@ -29,6 +29,7 @@ dependencies:
   dio: ^3.0.10
   dotted_border: ^1.0.7
   dotted_decoration: ^1.2.2
+  flutter_switch: ^0.2.0
 
   flutter:
     sdk: flutter
